@@ -19,7 +19,8 @@ import frc.robot.util.GyroProvider;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class DriveStraightCommand extends PIDCommand {
+public class DriveStraightCommand extends PIDCommand
+ {
   
   //private final DoubleSupplier m_headingProvider;
   /**

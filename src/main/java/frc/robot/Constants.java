@@ -30,4 +30,10 @@ public final class Constants {
         public static final double kStabilizationI = 0.5;
         public static final double kStabilizationD = 0;
     }
+
+    public static final class ShooterConstants {
+        public static final int kMotor1Port = 5;
+        public static final int kMotor2Port = 6;
+        public static final int kActuatorMotorPort = 7;
+    }
 }

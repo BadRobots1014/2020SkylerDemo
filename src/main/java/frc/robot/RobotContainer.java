@@ -17,7 +17,9 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveForTimeCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.DriveStraightCommand;
+import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.GyroProvider;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -31,8 +33,11 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
   private final TankDriveCommand m_tankdrivecommand = new TankDriveCommand(m_driveTrain);
   private final DriveForTimeCommand m_autoDriveCommand = new DriveForTimeCommand(m_driveTrain, 1.0, 0.5);
+  private final ShootCommand m_shootCommand = new ShootCommand(m_shooterSubsystem);
+  private final ShootCommand m_resetActuator = new ShootCommand(m_shooterSubsystem);
   private final XboxController m_driverController = new XboxController(OIConstants.kPrimaryDriverController);
 
   private final GyroProvider m_gyroProvider;
@@ -66,6 +71,10 @@ public class RobotContainer {
     new JoystickButton(m_driverController, Button.kBumperRight.value)
     .whenPressed(() -> m_driveTrain.setMaxOutput(0.5))
     .whenReleased(() -> m_driveTrain.setMaxOutput(1));
+
+    // Activate the shooter when the Y button is held
+    new JoystickButton(m_driverController, Button.kY.value).whenHeld(m_shootCommand).whenReleased(m_resetActuator);
+
   }
 
   private void configureDriveTrain() {

@@ -6,11 +6,8 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
 import frc.robot.subsystems.DriveTrainSubsystem;
-
 import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -24,11 +21,7 @@ public class TankDriveCommand extends CommandBase {
   private DoubleSupplier m_leftDoubleSupplier = () -> 0.0;
   private DoubleSupplier m_rightDoubleSupplier = () -> 0.0;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
+
   public TankDriveCommand(DriveTrainSubsystem subsystem) {
     m_driveTrain = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.

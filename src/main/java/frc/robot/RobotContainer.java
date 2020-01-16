@@ -13,16 +13,20 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.DriveForTimeCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.DriveStraightCommand;
+import frc.robot.commands.ResetActuatorCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.GyroProvider;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -37,10 +41,13 @@ public class RobotContainer {
   private final TankDriveCommand m_tankdrivecommand = new TankDriveCommand(m_driveTrain);
   private final DriveForTimeCommand m_autoDriveCommand = new DriveForTimeCommand(m_driveTrain, 1.0, 0.5);
   private final ShootCommand m_shootCommand = new ShootCommand(m_shooterSubsystem);
-  private final ShootCommand m_resetActuator = new ShootCommand(m_shooterSubsystem);
+  private final ResetActuatorCommand m_resetActuator = new ResetActuatorCommand(m_shooterSubsystem);
   private final XboxController m_driverController = new XboxController(OIConstants.kPrimaryDriverController);
 
+
+
   private final GyroProvider m_gyroProvider;
+  private final SendableChooser<Command> chooser = new SendableChooser<Command>();
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -51,6 +58,10 @@ public class RobotContainer {
     configureButtonBindings();
     // Configure the button bindings
     configureDriveTrain();
+    chooser.setDefaultOption("TestOne", m_autoDriveCommand);
+    chooser.addOption("TestTwo", m_shootCommand);
+    SmartDashboard.putData(chooser);
+
   }
 
   /**
@@ -88,6 +99,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return m_autoDriveCommand;
+    return chooser.getSelected();
   }
 }

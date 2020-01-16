@@ -23,22 +23,32 @@ public class ShooterSubsystem extends SubsystemBase
 
     public ShooterSubsystem()
     {
-        m_shooterMotors = new SpeedControllerGroup(shooterMotor1, shooterMotor2, actuatorMotor);
+        m_shooterMotors = new SpeedControllerGroup(shooterMotor1, shooterMotor2);
     }
 
     public void resetActuator()
     {
-        actuatorMotor.set(0.9);
+        actuatorMotor.set(-0.9);
     }
     
-    public void setMaxOutput()
+    public void startShooter()
     {
         m_shooterMotors.set(0.9);
     }
+
+    public void startActuator()
+    {
+        actuatorMotor.set(0.9);
+    }
     
-    public void stop()
+    public void stopShooter()
     {
         m_shooterMotors.stopMotor();
+    }
+
+    public void stopActuator()
+    {
+        actuatorMotor.stopMotor();
     }
     
 }

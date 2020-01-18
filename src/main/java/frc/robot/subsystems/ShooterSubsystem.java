@@ -1,9 +1,9 @@
 //This is where the shooter code goes on Skylar.
 
-
-
 package frc.robot.subsystems;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PWMTalonSRX;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -21,6 +21,8 @@ public class ShooterSubsystem extends SubsystemBase
 
     private final SpeedControllerGroup m_shooterMotors;
 
+    private final DigitalInput m_actuatorSwitch = new DigitalInput(ShooterConstants.kActuatorSwitchPort);
+
     public ShooterSubsystem()
     {
         m_shooterMotors = new SpeedControllerGroup(shooterMotor1, shooterMotor2);
@@ -28,7 +30,7 @@ public class ShooterSubsystem extends SubsystemBase
 
     public void resetActuator()
     {
-        actuatorMotor.set(-0.9);
+        actuatorMotor.set(-0.5);
     }
     
     public void startShooter()
@@ -38,7 +40,7 @@ public class ShooterSubsystem extends SubsystemBase
 
     public void startActuator()
     {
-        actuatorMotor.set(0.9);
+        actuatorMotor.set(0.5);
     }
     
     public void stopShooter()
@@ -49,6 +51,11 @@ public class ShooterSubsystem extends SubsystemBase
     public void stopActuator()
     {
         actuatorMotor.stopMotor();
+    }
+
+    public boolean getActuatorSwitch()
+    {
+        return m_actuatorSwitch.get();
     }
     
 }

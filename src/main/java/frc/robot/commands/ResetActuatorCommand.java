@@ -38,7 +38,7 @@ public class ResetActuatorCommand extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (m_timer.get() < 1.0) {
+        if (m_shooter.getActuatorSwitch() == true && m_timer.get() < 0.8) {
             return false;
         } else {
             m_shooter.stopActuator();

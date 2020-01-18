@@ -40,11 +40,7 @@ public class ShootCommand extends CommandBase
     public void execute()
     {
         m_shooter.startShooter();
-        if (m_timer.get() < 1.0) {
-            m_shooter.startActuator();
-        } else {
-            m_shooter.stopActuator();
-        }
+        m_shooter.startActuator();
     }
 
     @Override
@@ -56,7 +52,13 @@ public class ShootCommand extends CommandBase
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        if (m_timer.get() < 0.75) {
+            return false;
+        } else {
+            m_shooter.stopActuator();
+            m_shooter.stopShooter();
+            return true;
+        }
     }
 
 }

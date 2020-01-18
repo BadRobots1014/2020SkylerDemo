@@ -21,6 +21,7 @@ import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.DriveStraightCommand;
 import frc.robot.commands.ResetActuatorCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.commands.ShootCommandGroup;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.GyroProvider;
@@ -62,6 +63,8 @@ public class RobotContainer {
     chooser.addOption("TestTwo", m_shootCommand);
     SmartDashboard.putData(chooser);
 
+
+
   }
 
   /**
@@ -83,8 +86,8 @@ public class RobotContainer {
     .whenPressed(() -> m_driveTrain.setMaxOutput(0.5))
     .whenReleased(() -> m_driveTrain.setMaxOutput(1));
 
-    // Activate the shooter when the Y button is held
-    new JoystickButton(m_driverController, Button.kY.value).whenHeld(m_shootCommand).whenReleased(m_resetActuator);
+    // Activate the shooter when the Y button is pressed
+    new JoystickButton(m_driverController, Button.kY.value).whenPressed(new ShootCommandGroup(m_shooterSubsystem));
 
   }
 

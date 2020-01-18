@@ -35,5 +35,6 @@ public final class Constants {
         public static final int kMotor1Port = 5;
         public static final int kMotor2Port = 6;
         public static final int kActuatorMotorPort = 7;
+        public static final int kActuatorSwitchPort = 0;
     }
 }

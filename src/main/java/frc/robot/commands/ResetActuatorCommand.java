@@ -29,11 +29,6 @@ public class ResetActuatorCommand extends CommandBase {
     {
         m_shooter.resetActuator();
     }
-    
-    @Override
-    public void end(boolean interrupted) {
-        
-    }
 
     // Returns true when the command should end.
     @Override
@@ -41,6 +36,7 @@ public class ResetActuatorCommand extends CommandBase {
         if (m_shooter.getActuatorSwitch() == true && m_timer.get() < 0.8) {
             return false;
         } else {
+            m_shooter.stopShooter();
             m_shooter.stopActuator();
             return true;
         }

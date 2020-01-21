@@ -7,6 +7,7 @@ public class ShootCommandGroup extends SequentialCommandGroup {
     
     public ShootCommandGroup(ShooterSubsystem shooterSubsystem) {
         addCommands(
+            new PrimeShooterCommand(shooterSubsystem),
             new ShootCommand(shooterSubsystem),
             new ResetActuatorCommand(shooterSubsystem)
         );

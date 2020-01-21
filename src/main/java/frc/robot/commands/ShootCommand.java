@@ -39,13 +39,11 @@ public class ShootCommand extends CommandBase
     @Override
     public void execute()
     {
-        m_shooter.startShooter();
         m_shooter.startActuator();
     }
 
     @Override
     public void end(boolean interrupted) {
-        m_shooter.stopShooter();
         m_shooter.stopActuator();
     }
     
@@ -56,7 +54,6 @@ public class ShootCommand extends CommandBase
             return false;
         } else {
             m_shooter.stopActuator();
-            m_shooter.stopShooter();
             return true;
         }
     }

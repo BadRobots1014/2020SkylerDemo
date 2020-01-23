@@ -1,21 +1,20 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ActuatorSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
-public class ResetActuatorCommand extends CommandBase {
-
-    private final ShooterSubsystem m_shooter;
+public class ReverseActuatorCommand extends CommandBase {
+    private final ActuatorSubsystem m_actuator;
 
     Timer m_timer = new Timer();
 
-    public ResetActuatorCommand(ShooterSubsystem subsystem)
+    public ReverseActuatorCommand(ActuatorSubsystem actuatorSubsystem)
     {
-        m_shooter = subsystem;
+        m_actuator = actuatorSubsystem;
         m_timer.reset();
 
-        addRequirements(subsystem);
+        addRequirements(actuatorSubsystem);
     }
     
     @Override
@@ -27,18 +26,18 @@ public class ResetActuatorCommand extends CommandBase {
     @Override
     public void execute()
     {
-        m_shooter.resetActuator();
+        m_actuator.setActuatorReverse();
     }
 
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if (m_shooter.getActuatorSwitch() == true && m_timer.get() < 0.8) {
+        if (m_actuator.getActuatorSwitch() == true && m_timer.get() < 0.8) {
             return false;
         } else {
-            m_shooter.stopShooter();
-            m_shooter.stopActuator();
+            m_actuator.stopActuator();
             return true;
         }
     }
+    
 }

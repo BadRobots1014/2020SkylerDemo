@@ -1,25 +1,25 @@
 package frc.robot.commands;
-import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ActuatorSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 
-public class ShootCommand extends CommandBase 
+public class ForwardActuatorCommand extends CommandBase 
 {
-    private final ShooterSubsystem m_shooter;  
+    private final ActuatorSubsystem m_actuator;
     // private DoubleSupplier m_shooterDoubleSupplier = () -> 0.0;
 
     Timer m_timer = new Timer();
     
-    public ShootCommand(ShooterSubsystem subsystem)
+    public ForwardActuatorCommand(ActuatorSubsystem actuatorSubsystem)
     {
-        m_shooter = subsystem;
+        m_actuator = actuatorSubsystem;
+
         m_timer.reset();
 
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
+        addRequirements(actuatorSubsystem);
     }
     
     /*
@@ -39,12 +39,7 @@ public class ShootCommand extends CommandBase
     @Override
     public void execute()
     {
-        m_shooter.startActuator();
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        m_shooter.stopActuator();
+        m_actuator.setActuatorForward();
     }
     
     // Returns true when the command should end.
@@ -53,9 +48,8 @@ public class ShootCommand extends CommandBase
         if (m_timer.get() < 0.75) {
             return false;
         } else {
-            m_shooter.stopActuator();
+            m_actuator.stopActuator();
             return true;
         }
     }
-
 }

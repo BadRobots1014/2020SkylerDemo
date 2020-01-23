@@ -14,14 +14,15 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.DriveForTimeCommand;
+import frc.robot.commands.ActivateShooterCommand;
+import frc.robot.commands.AutomaticShootCommandGroup;
+// import frc.robot.commands.DriveForTimeCommand;
 import frc.robot.commands.TankDriveCommand;
 import frc.robot.commands.DriveStraightCommand;
-import frc.robot.commands.ResetActuatorCommand;
-import frc.robot.commands.ShootCommand;
 import frc.robot.commands.ShootCommandGroup;
+import frc.robot.subsystems.ActuatorSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.util.GyroProvider;
@@ -39,10 +40,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveTrainSubsystem m_driveTrain = new DriveTrainSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final ActuatorSubsystem m_actuatorSubsystem = new ActuatorSubsystem();
   private final TankDriveCommand m_tankdrivecommand = new TankDriveCommand(m_driveTrain);
-  private final DriveForTimeCommand m_autoDriveCommand = new DriveForTimeCommand(m_driveTrain, 1.0, 0.5);
-  private final ShootCommand m_shootCommand = new ShootCommand(m_shooterSubsystem);
-  private final ResetActuatorCommand m_resetActuator = new ResetActuatorCommand(m_shooterSubsystem);
+  // private final DriveForTimeCommand m_autoDriveCommand = new DriveForTimeCommand(m_driveTrain, 1.0, 0.5);
   private final XboxController m_driverController = new XboxController(OIConstants.kPrimaryDriverController);
 
 
@@ -59,9 +59,12 @@ public class RobotContainer {
     configureButtonBindings();
     // Configure the button bindings
     configureDriveTrain();
+
+    /* Broken due to some restructuring of commands 
     chooser.setDefaultOption("TestOne", m_autoDriveCommand);
     chooser.addOption("TestTwo", m_shootCommand);
     SmartDashboard.putData(chooser);
+    */
 
 
 
@@ -86,8 +89,14 @@ public class RobotContainer {
     .whenPressed(() -> m_driveTrain.setMaxOutput(0.5))
     .whenReleased(() -> m_driveTrain.setMaxOutput(1));
 
-    // Activate the shooter when the Y button is pressed
-    new JoystickButton(m_driverController, Button.kY.value).whenPressed(new ShootCommandGroup(m_shooterSubsystem));
+    // Prime the shooter when the B button is held
+    new JoystickButton(m_driverController, Button.kB.value).whenHeld(new ActivateShooterCommand(m_shooterSubsystem));
+
+    // Shoot after the shooter is manually primed when the Y button is pressed
+    new JoystickButton(m_driverController, Button.kY.value).whenPressed(new ShootCommandGroup(m_actuatorSubsystem));
+
+    // Automagically shoot when the X button is pressed
+    new JoystickButton(m_driverController, Button.kX.value).whenPressed(new AutomaticShootCommandGroup(m_shooterSubsystem, m_actuatorSubsystem));
 
   }
 

@@ -9,9 +9,6 @@ package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
 
-// Some test things
-import edu.wpi.first.wpilibj.DigitalInput;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
